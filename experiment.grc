@@ -27,28 +27,11 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [4, 2]
     rotation: 0
     state: enabled
 
 blocks:
-- name: lsb
-  id: variable_qtgui_push_button
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: ''
-    pressed: '1'
-    released: '0'
-    type: int
-    value: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [434, 17]
-    rotation: 0
-    state: true
 - name: rfsamp
   id: variable
   parameters:
@@ -58,7 +41,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [766, 18]
+    coordinate: [391, 3]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -70,45 +53,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12]
+    coordinate: [174, 3]
     rotation: 0
     state: enabled
-- name: usb
-  id: variable_qtgui_push_button
+- name: usbswitch
+  id: variable_qtgui_check_box
   parameters:
     comment: ''
+    'false': 'False'
     gui_hint: ''
-    label: ''
-    pressed: '1'
-    released: '0'
+    label: USB
+    'true': 'True'
     type: int
-    value: '0'
+    value: 'False'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [596, 17]
-    rotation: 0
-    state: true
-- name: volume
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: volume
-    min_len: '200'
-    orient: Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '.001'
-    stop: '.08'
-    value: '.04'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [275, 15]
+    coordinate: [260, 2]
     rotation: 0
     state: true
 - name: audio_source_0
@@ -127,7 +89,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 145]
+    coordinate: [95, 257]
     rotation: 180
     state: true
 - name: band_pass_filter_0
@@ -138,7 +100,7 @@ blocks:
     beta: '6.76'
     comment: ''
     decim: '1'
-    gain: '1'
+    gain: '.5'
     high_cutoff_freq: '2400'
     interp: '1'
     low_cutoff_freq: '400'
@@ -152,7 +114,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [86, 196]
+    coordinate: [84, 99]
     rotation: 0
     state: true
 - name: blocks_add_xx_0
@@ -170,8 +132,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [748, 407]
-    rotation: 0
+    coordinate: [893, 76]
+    rotation: 180
     state: true
 - name: blocks_complex_to_magphase_0
   id: blocks_complex_to_magphase
@@ -186,7 +148,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [79, 477]
+    coordinate: [275, 214]
     rotation: 0
     state: true
 - name: blocks_magphase_to_complex_0
@@ -202,7 +164,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [437, 477]
+    coordinate: [704, 214]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -220,7 +182,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [275, 560]
+    coordinate: [507, 259]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_1
@@ -229,7 +191,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: usb
+    const: usbswitch
     maxoutbuf: '0'
     minoutbuf: '0'
     type: complex
@@ -238,25 +200,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [337, 403]
-    rotation: 0
-    state: true
-- name: blocks_multiply_const_vxx_1_0
-  id: blocks_multiply_const_vxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    const: volume
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: float
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [310, 222]
+    coordinate: [780, 158]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_1_1
@@ -265,7 +209,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: lsb
+    const: 1-usbswitch
     maxoutbuf: '0'
     minoutbuf: '0'
     type: complex
@@ -274,7 +218,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [110, 400]
+    coordinate: [322, 164]
     rotation: 180
     state: true
 - name: hilbert_fc_0
@@ -292,8 +236,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [317, 304]
-    rotation: 180
+    coordinate: [324, 119]
+    rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
@@ -367,25 +311,24 @@ blocks:
     width9: '1'
     wintype: firdes.WIN_BLACKMAN_hARRIS
     ymax: '10'
-    ymin: '-140'
+    ymin: '-200'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [638, 284]
+    coordinate: [606, 12]
     rotation: 180
     state: true
 
 connections:
 - [audio_source_0, '0', band_pass_filter_0, '0']
-- [band_pass_filter_0, '0', blocks_multiply_const_vxx_1_0, '0']
+- [band_pass_filter_0, '0', hilbert_fc_0, '0']
 - [blocks_add_xx_0, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_complex_to_magphase_0, '0', blocks_magphase_to_complex_0, '0']
 - [blocks_complex_to_magphase_0, '1', blocks_multiply_const_vxx_0, '0']
-- [blocks_magphase_to_complex_0, '0', blocks_add_xx_0, '1']
+- [blocks_magphase_to_complex_0, '0', blocks_add_xx_0, '0']
 - [blocks_multiply_const_vxx_0, '0', blocks_magphase_to_complex_0, '1']
-- [blocks_multiply_const_vxx_1, '0', blocks_add_xx_0, '0']
-- [blocks_multiply_const_vxx_1_0, '0', hilbert_fc_0, '0']
+- [blocks_multiply_const_vxx_1, '0', blocks_add_xx_0, '1']
 - [blocks_multiply_const_vxx_1_1, '0', blocks_complex_to_magphase_0, '0']
 - [hilbert_fc_0, '0', blocks_multiply_const_vxx_1, '0']
 - [hilbert_fc_0, '0', blocks_multiply_const_vxx_1_1, '0']
