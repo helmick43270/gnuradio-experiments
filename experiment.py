@@ -74,7 +74,7 @@ class experiment(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.usbswitch = usbswitch = True
+        self.usbswitch = usbswitch = 1
         self.transmit_freq = transmit_freq = 432200000
         self.squ = squ = -50
         self.samp_rate = samp_rate = 32000
@@ -85,7 +85,7 @@ class experiment(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         _usbswitch_check_box = Qt.QCheckBox('USB')
-        self._usbswitch_choices = {True: True, False: False}
+        self._usbswitch_choices = {True: 1, False: -1}
         self._usbswitch_choices_inv = dict((v,k) for k,v in self._usbswitch_choices.items())
         self._usbswitch_callback = lambda i: Qt.QMetaObject.invokeMethod(_usbswitch_check_box, "setChecked", Qt.Q_ARG("bool", self._usbswitch_choices_inv[i]))
         self._usbswitch_callback(self.usbswitch)
@@ -118,12 +118,9 @@ class experiment(gr.top_block, Qt.QWidget):
         self.osmosdr_sink_0.set_antenna('', 0)
         self.osmosdr_sink_0.set_bandwidth(0, 0)
         self.hilbert_fc_0 = filter.hilbert_fc(4000, firdes.WIN_HANN, 6.76)
-        self.blocks_multiply_const_vxx_1_1 = blocks.multiply_const_cc(1-usbswitch)
-        self.blocks_multiply_const_vxx_1 = blocks.multiply_const_cc(usbswitch)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(-1)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(usbswitch)
         self.blocks_magphase_to_complex_0 = blocks.magphase_to_complex(1)
         self.blocks_complex_to_magphase_0 = blocks.complex_to_magphase(1)
-        self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.band_pass_filter_0 = filter.fir_filter_fff(
             1,
             firdes.band_pass(
@@ -145,15 +142,11 @@ class experiment(gr.top_block, Qt.QWidget):
         self.connect((self.analog_simple_squelch_cc_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.audio_source_0, 0), (self.band_pass_filter_0, 0))
         self.connect((self.band_pass_filter_0, 0), (self.hilbert_fc_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.analog_simple_squelch_cc_0, 0))
         self.connect((self.blocks_complex_to_magphase_0, 0), (self.blocks_magphase_to_complex_0, 0))
         self.connect((self.blocks_complex_to_magphase_0, 1), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.blocks_magphase_to_complex_0, 0), (self.blocks_add_xx_0, 1))
+        self.connect((self.blocks_magphase_to_complex_0, 0), (self.analog_simple_squelch_cc_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_magphase_to_complex_0, 1))
-        self.connect((self.blocks_multiply_const_vxx_1, 0), (self.blocks_add_xx_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_1_1, 0), (self.blocks_complex_to_magphase_0, 0))
-        self.connect((self.hilbert_fc_0, 0), (self.blocks_multiply_const_vxx_1, 0))
-        self.connect((self.hilbert_fc_0, 0), (self.blocks_multiply_const_vxx_1_1, 0))
+        self.connect((self.hilbert_fc_0, 0), (self.blocks_complex_to_magphase_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.osmosdr_sink_0, 0))
 
     def closeEvent(self, event):
@@ -167,8 +160,7 @@ class experiment(gr.top_block, Qt.QWidget):
     def set_usbswitch(self, usbswitch):
         self.usbswitch = usbswitch
         self._usbswitch_callback(self.usbswitch)
-        self.blocks_multiply_const_vxx_1.set_k(self.usbswitch)
-        self.blocks_multiply_const_vxx_1_1.set_k(1-self.usbswitch)
+        self.blocks_multiply_const_vxx_0.set_k(self.usbswitch)
 
     def get_transmit_freq(self):
         return self.transmit_freq

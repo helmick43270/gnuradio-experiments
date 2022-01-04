@@ -123,12 +123,12 @@ blocks:
   id: variable_qtgui_check_box
   parameters:
     comment: ''
-    'false': 'False'
+    'false': '-1'
     gui_hint: ''
     label: USB
-    'true': 'True'
+    'true': '1'
     type: int
-    value: 'True'
+    value: '1'
   states:
     bus_sink: false
     bus_source: false
@@ -150,7 +150,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [959, 61]
+    coordinate: [928, 81]
     rotation: 0
     state: true
 - name: audio_source_0
@@ -197,24 +197,6 @@ blocks:
     coordinate: [84, 99]
     rotation: 0
     state: true
-- name: blocks_add_xx_0
-  id: blocks_add_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: '2'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [856, 118]
-    rotation: 0
-    state: true
 - name: blocks_complex_to_magphase_0
   id: blocks_complex_to_magphase
   parameters:
@@ -228,7 +210,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [275, 214]
+    coordinate: [365, 164]
     rotation: 0
     state: true
 - name: blocks_magphase_to_complex_0
@@ -244,7 +226,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 214]
+    coordinate: [652, 164]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -253,7 +235,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: '-1'
+    const: usbswitch
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -262,44 +244,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [507, 259]
+    coordinate: [529, 251]
     rotation: 0
-    state: true
-- name: blocks_multiply_const_vxx_1
-  id: blocks_multiply_const_vxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    const: usbswitch
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [591, 159]
-    rotation: 0
-    state: true
-- name: blocks_multiply_const_vxx_1_1
-  id: blocks_multiply_const_vxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    const: 1-usbswitch
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [322, 164]
-    rotation: 180
     state: true
 - name: hilbert_fc_0
   id: hilbert_fc
@@ -316,7 +262,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [324, 119]
+    coordinate: [256, 116]
     rotation: 0
     state: true
 - name: osmosdr_sink_0
@@ -577,7 +523,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1057, 148]
+    coordinate: [1107, 117]
     rotation: 180
     state: enabled
 - name: rational_resampler_xxx_0
@@ -597,7 +543,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1139, 11]
+    coordinate: [1100, 10]
     rotation: 0
     state: true
 
@@ -605,15 +551,11 @@ connections:
 - [analog_simple_squelch_cc_0, '0', rational_resampler_xxx_0, '0']
 - [audio_source_0, '0', band_pass_filter_0, '0']
 - [band_pass_filter_0, '0', hilbert_fc_0, '0']
-- [blocks_add_xx_0, '0', analog_simple_squelch_cc_0, '0']
 - [blocks_complex_to_magphase_0, '0', blocks_magphase_to_complex_0, '0']
 - [blocks_complex_to_magphase_0, '1', blocks_multiply_const_vxx_0, '0']
-- [blocks_magphase_to_complex_0, '0', blocks_add_xx_0, '1']
+- [blocks_magphase_to_complex_0, '0', analog_simple_squelch_cc_0, '0']
 - [blocks_multiply_const_vxx_0, '0', blocks_magphase_to_complex_0, '1']
-- [blocks_multiply_const_vxx_1, '0', blocks_add_xx_0, '0']
-- [blocks_multiply_const_vxx_1_1, '0', blocks_complex_to_magphase_0, '0']
-- [hilbert_fc_0, '0', blocks_multiply_const_vxx_1, '0']
-- [hilbert_fc_0, '0', blocks_multiply_const_vxx_1_1, '0']
+- [hilbert_fc_0, '0', blocks_complex_to_magphase_0, '0']
 - [rational_resampler_xxx_0, '0', osmosdr_sink_0, '0']
 
 metadata:
